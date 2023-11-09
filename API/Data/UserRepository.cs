@@ -4,7 +4,9 @@ using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+
 namespace API.Data;
+
 public class UserRepository : IUserRepository
 {
     private readonly IMapper _mapper;
