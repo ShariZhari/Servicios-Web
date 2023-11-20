@@ -1,0 +1,16 @@
+.img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+    box-shadow: 0 0 10px rgb(0, 255, 213), inset 0 0 10px rgb(0, 255, 213);
+}
+
+.card {
+    background-color: rgba(30, 23, 57, 0.5);
+    border: 2px solid rgb(166, 0, 255); 
+    box-shadow: 0 0 10px rgb(166, 0, 255), inset 0 0 10px rgb(166, 0, 255);
+}
+
+.card-footer {
+    padding: 10px 15px;
+}
