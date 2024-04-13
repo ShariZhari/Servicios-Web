@@ -3,35 +3,45 @@
         <a class="navbar-brand" routerLink="/" routerLinkActive="active">Mi Primera Cita</a>
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <ng-container *ngIf="accountService.currentUser$ | async">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/members" routerLinkActive="active">Parejas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/lists" routerLinkActive="active">Listas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/messages" routerLinkActive="active">Mensajes</a>
+                </li>
+            </ng-container>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" routerLink="/members" href="#" routerLinkActive="active">Parejas</a>
+                <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/lists" href="#" routerLinkActive="active">Listas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/messages" routerLinkActive="active">Mensajes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errores</a>
-            </li>
-        </ng-container>
         </ul>
-        <ng-container *ngIf="(accountService.currentUser$ | async) as user">
-        <div class="dropdown" dropdown>
-            <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>Bienvenido {{user.username | titlecase}}</a>
+        <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+            <img src="{{user.photoUrl || './assets/user.svg'}}" alt="User photo">
+            <a class="dropdown-toggle text-light text-decoration-none ms-1" dropdownToggle>
+                Bienvenido {{user.username | titlecase}}
+            </a>
             <div class="dropdown-menu" *dropdownMenu>
-                <a class="dropdown-item" routerLink="member/edit">Perfil</a>
+                <a class="dropdown-item" routerLink="/member/edit">Perfil</a>
                 <a class="dropdown-item" (click)="logout()">Salir</a>
             </div>
         </div>
-        </ng-container>
-        <ng-container *ngIf="!(accountService.currentUser$ | async)">
-            <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
-                <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username">
-                <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password">
-                <button class="btn btn-outline-success" type="submit">Login</button>
-            </form>
-    </ng-container>
+
+        <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+            <input
+                name="username"
+                [(ngModel)]="model.username"
+                class="form-control me-2"
+                type="text"
+                placeholder="Username">
+            <input
+                name="password"
+                [(ngModel)]="model.password"
+                class="form-control me-2"
+                type="password"
+                placeholder="Password">
+            <button class="btn btn-success" type="submit">Ingresar</button>
+        </form>
     </div>
 </nav>
