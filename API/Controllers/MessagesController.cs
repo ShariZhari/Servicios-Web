@@ -47,7 +47,7 @@ public class MessagesController : BaseApiController
 
         _messageRepository.AddMessage(message);
 
-        if(await _messageRepository.SaveAllAsync())
+        if (await _messageRepository.SaveAllAsync())
         {
             return Ok(_mapper.Map<MessageDto>(message));
         }
@@ -79,5 +79,27 @@ public class MessagesController : BaseApiController
         var currentUsername = User.GetUsername();
 
         return Ok(await _messageRepository.GetMessageThreadAsync(currentUsername, username));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteMessageAsync(int id)
+    {
+        var username = User.GetUsername();
+        var message = await _messageRepository.GetMessageAsync(id);
+
+        if (message.SenderUsername != username && message.RecipientUsername != username)
+            return Unauthorized();
+
+        if (message.SenderUsername == username) message.SenderDeleted = true;
+        if (message.RecipientUsername == username) message.RecipientDeleted = true;
+
+        if (message.SenderDeleted && message.RecipientDeleted)
+        {
+            _messageRepository.DeleteMessage(message);
+        }
+
+        if (await _messageRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("No se pudo borrar el mensaje");
     }
 }

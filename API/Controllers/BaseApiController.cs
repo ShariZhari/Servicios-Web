@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[ServiceFilter(typeof(LogUserActivity))]
 [ApiController]
 [Route("api/[controller]")]
-[ServiceFilter(typeof(LogUserActivity))]
-public class BaseApiController : ControllerBase{
+public class BaseApiController : ControllerBase
+{
 
 }

@@ -1,54 +1,52 @@
-<div class="row" *ngIf="member">
+<div class="row">
     <div class="col-4">
         <div class="card">
-            <img src="{{member.photoUrl || './assets/user.svg'}}" alt="{{member.knownAs}}"
+            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}"
                 class="card-img-top img-thumbnail">
             <div class="card-body">
-                <h1>{{member.knownAs}}</h1>
-                <strong>Ubicación:</strong>
-                <p>{{member.city}}, {{member.country}}</p>
-            </div>
-            <div class="card-body">
-                <strong>Edad:</strong>
-                <p>{{member.age}}</p>
-            </div>
-            <div class="card-body">
-                <strong>Última Conexión:</strong>
-                <p>{{member.lastActive + "Z" | timeago}}</p>
-            </div>
-            <div class="card-body">
-                <strong>Usuario desde:</strong>
-                <p>{{member.created | date: "dd MMM yyyy"}}</p>
+                <div>
+                    <strong>Ubicación:</strong>
+                    <p>{{member.city}}, {{member.country}}</p>
+                </div>
+                <div>
+                    <strong>Edad:</strong>
+                    <p>{{member.age}}</p>
+                </div>
+                <div>
+                    <strong>Última conexión:</strong>
+                    <p>{{member.lastActive + "Z" | timeago}}</p>
+                </div>
+                <div>
+                    <strong>Usuario desde:</strong>
+                    <p>{{member.created | date: "dd MMM yyyy"}}</p>
+                </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">
-                    <button class="btn btn-outline-primary">Me gusta</button>
-                    <button class="btn btn-outline-success">Mensajes</button>
+                    <button class="btn btn-primary">Me gusta</button>
+                    <button (click)="selectTab('Mensajes')" class="btn btn-success">Mensajes</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-8">
-        <tabset class="member-tabset">
-            <tab heading="Acerca de '{{member.knownAs}}'">
+        <tabset class="member-tabset" #memberTabs>
+            <tab heading="Acerca de {{member.knownAs}}" (selectTab)="onTabActivated($event)">
                 <h4>Descripción</h4>
                 <p>{{member.introduction}}</p>
                 <h4>Buscando</h4>
                 <p>{{member.lookingFor}}</p>
             </tab>
-            <tab heading="Intereses">
+            <tab heading="Intereses" (selectTab)="onTabActivated($event)">
                 <h4>Intereses</h4>
                 <p>{{member.interests}}</p>
             </tab>
-            <tab heading="Fotografias" #photoTab="tab">
-                <h4>Fotografias</h4>
-                <gallery *ngIf="photoTab.active" [items]="images" class="gallery"></gallery>
+            <tab heading="Fotografías" #photoTab="tab" (selectTab)="onTabActivated($event)">
+                <gallery thumbPosition="left" *ngIf="photoTab.active" [items]="images" class="gallery"></gallery>
             </tab>
-            <tab heading="Mensajes">
-                <h4>Mensajes</h4>
-                <app-member-messages [username]="member.userName"></app-member-messages>
-                <p></p>
+            <tab heading="Mensajes" (selectTab)="onTabActivated($event)">
+                <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages>
             </tab>
         </tabset>
     </div>
